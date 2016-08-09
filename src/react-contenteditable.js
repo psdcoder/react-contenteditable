@@ -17,7 +17,11 @@ export default class ContentEditable extends React.Component {
       Object.assign({}, props, {
         ref: (e) => this.htmlEl = e,
         onInput: this.emitChange,
-        onBlur: this.props.onBlur || this.emitChange,
+        onTextInput: this.emitChange,
+        onBlur: (e) => {
+          this.emitChange(e);
+          this.props.onBlur && this.props.onBlur(e);
+        },
         contentEditable: !this.props.disabled,
         dangerouslySetInnerHTML: {__html: this.props.html}
       }),
